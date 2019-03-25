@@ -36,6 +36,12 @@ public class SeckillServiceImpl implements SeckillService {
     // md5盐值字符串 用于混淆md5
     private final String slat = "qwehroq&%$**(@khlqw90u0jas23~";
 
+    private String getMd5(long seckillId) {
+        String base = seckillId + "/" + slat;
+        String md5 = DigestUtils.md5DigestAsHex(base.getBytes());
+        return md5;
+    }
+
     @Override
     public List<Seckill> getSeckillList() {
         return seckillDao.queryAll(0, 4);
@@ -108,11 +114,5 @@ public class SeckillServiceImpl implements SeckillService {
             // 所有编译期异常转化为运行期异常
             throw new SeckillException("seckill inner error:" + e.getMessage());
         }
-    }
-
-    private String getMd5(long seckillId) {
-        String base = seckillId + "/" + slat;
-        String md5 = DigestUtils.md5DigestAsHex(base.getBytes());
-        return md5;
     }
 }
